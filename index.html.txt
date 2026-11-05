@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognify Media | Edutainment Агенція</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-text {
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+        }
+        .progress-bar { transition: width 0.3s ease; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="p-6 border-b border-gray-800 flex justify-between items-center glass-card sticky top-0 z-50">
+        <div class="text-2xl font-bold text-purple-400 neon-text">Cognify Media</div>
+        <nav class="hidden md:flex space-x-6">
+            <a href="#services" class="hover:text-purple-400 transition">Послуги</a>
+            <a href="#demo" class="hover:text-purple-400 transition">Інтерактивне Демо</a>
+            <a href="#calculator" class="hover:text-purple-400 transition">Калькулятор ROI</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section with Level Up Demo -->
+    <section class="py-20 px-6 text-center" id="demo">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-6">Навчання через <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Гру</span></h1>
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">Ми створюємо інтерактивний edutainment-контент, який утримує увагу в 3 рази довше, ніж звичайні відео.</p>
+        
+        <div class="max-w-md mx-auto glass-card p-8 rounded-2xl">
+            <h3 class="text-2xl font-bold mb-4">Демонстрація Гейміфікації</h3>
+            <p class="mb-4 text-gray-300">Рівень: <span id="levelDisplay" class="font-bold text-purple-400 text-xl">1</span></p>
+            <div class="w-full bg-gray-700 rounded-full h-4 mb-6 overflow-hidden">
+                <div id="xpBar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-4 rounded-full progress-bar" style="width: 0%"></div>
+            </div>
+            <button onclick="addXP()" class="w-full py-3 px-6 bg-purple-600 hover:bg-purple-500 rounded-lg font-bold transition shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                Отримати XP
+            </button>
+        </div>
+    </section>
+
+    <!-- ROI Calculator Section -->
+    <section class="py-16 px-6 bg-gray-900" id="calculator">
+        <div class="max-w-4xl mx-auto glass-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold mb-8 text-center">Калькулятор ефективності (ROI)</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <label class="block mb-2 text-gray-400">Кількість користувачів: <span id="usersVal" class="text-white">1000</span></label>
+                    <input type="range" id="users" min="100" max="10000" step="100" value="1000" class="w-full mb-6 accent-purple-500" oninput="calculateROI()">
+                    
+                    <label class="block mb-2 text-gray-400">Середній чек ($): <span id="ltvVal" class="text-white">50</span></label>
+                    <input type="range" id="ltv" min="10" max="500" step="10" value="50" class="w-full mb-6 accent-purple-500" oninput="calculateROI()">
+                </div>
+                <div class="flex flex-col justify-center bg-gray-800 p-6 rounded-xl border border-gray-700">
+                    <h3 class="text-lg text-gray-400 mb-2">Прогнозований дохід з Edutainment:</h3>
+                    <div class="text-5xl font-bold text-pink-500 neon-text mb-4">$<span id="revenue">65000</span></div>
+                    <p class="text-sm text-gray-400">Завдяки підвищенню залученості на 30%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p-8 text-center text-gray-500 border-t border-gray-800">
+        <p>© 2026 Cognify Media. Розроблено: Омельяненко Віталій (ФЕМП 3-16).</p>
+    </footer>
+
+    <script>
+        // Level Up Logic
+        let xp = 0;
+        let level = 1;
+        function addXP() {
+            xp += 25;
+            if (xp >= 100) {
+                level++;
+                xp = 0;
+                document.getElementById('levelDisplay').innerText = level;
+                document.getElementById('levelDisplay').classList.add('neon-text');
+                setTimeout(() => document.getElementById('levelDisplay').classList.remove('neon-text'), 500);
+            }
+            document.getElementById('xpBar').style.width = xp + '%';
+        }
+
+        // Calculator Logic
+        function calculateROI() {
+            const users = document.getElementById('users').value;
+            const ltv = document.getElementById('ltv').value;
+            
+            document.getElementById('usersVal').innerText = users;
+            document.getElementById('ltvVal').innerText = ltv;
+            
+            // Formula: users * ltv * 1.3 (30% increase in retention/completion due to edutainment)
+            const revenue = Math.round(users * ltv * 1.3);
+            document.getElementById('revenue').innerText = revenue.toLocaleString();
+        }
+    </script>
+</body>
+</html>
